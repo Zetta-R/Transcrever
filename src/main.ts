@@ -1,7 +1,7 @@
 import './style.css';
 
 // URL do backend local. Certifique-se de que o servidor Python está rodando.
-const BACKEND_URL = 'http://210.173.152.148:8000/ocr'; // <-- SUBSTITUA PELO SEU IP!
+const BACKEND_URL = 'http://192.168.0.63:8000/ocr'; // <-- SUBSTITUA PELO SEU IP!
 
 // Seleciona os elementos do DOM
 const dropZone = document.getElementById('drop-zone')!;
