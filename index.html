@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OCR App</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Aplicativo OCR</h1>
+      <p>Arraste imagens (JPG, PNG) ou PDFs para a área abaixo.</p>
+
+      <div id="drop-zone">
+        <p>Arraste e solte os arquivos aqui</p>
+      </div>
+
+      <div id="status"></div>
+
+      <h2>Texto Transcrito</h2>
+      <textarea id="transcription-output" placeholder="O texto extraído aparecerá aqui..."></textarea>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
