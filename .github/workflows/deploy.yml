@@ -1,0 +1,65 @@
+# deploy.yml
+
+# Nome do fluxo de trabalho
+name: Deploy Vite site to Pages
+
+# Controla quando o fluxo de trabalho será executado
+on:
+  # Executa em pushes para o branch "main"
+  push:
+    branches: [main]
+  # Permite que você execute este fluxo de trabalho manualmente na guia Ações
+  workflow_dispatch:
+
+# Define permissões para o token do GITHUB para permitir o deploy no GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permite apenas um deploy simultâneo, cancelando execuções mais antigas
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # Job único chamado "deploy"
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Baixa o código do seu repositório
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Configura o Node.js para instalar dependências e fazer o build
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Use uma versão LTS do Node
+          cache: 'npm'
+
+      # 3. Instala as dependências do projeto
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Executa o build do projeto Vite (gera a pasta /dist)
+      - name: Build
+        run: npm run build
+
+      # 5. Prepara o artefato (a pasta /dist) para ser hospedado
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6. Faz o upload do artefato para o GitHub Pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 7. Faz o deploy final do site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
